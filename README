@@ -1,0 +1,17 @@
+SCHUA: The SCHooling User-interactive Aquarium
+- Created for Paul Fishwick's CAP5805 "Simulation Concepts" course at the 
+  University of Florida in November 2005
+Copyright (c) 2005 James C. Jones <pug@pugsplace.net>
+
+= Description = 
+
+This project simulates and displays schooling behaviours in 3D fish. It furthermore allows the user to interact with the simulation's algorithms, changing how the fish behave. Particularly the user can modify Cohesion, Alignment, Separation and Xenophobia, as well as add and remove fish, fish food and sharks.
+
+= Dependencies =
+
+The Processing framework: http://processing.org/
+
+= Licensing =
+
+See LICENSE
+This program contains software modified from Silicon Graphics, Inc. and is separately licensed. 
