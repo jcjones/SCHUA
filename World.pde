@@ -132,7 +132,7 @@ public void RotateMatrixAlongHeading(Vec3D Heading, Vec3D Side)
     qmat[14]=0;
     qmat[15]=1;
 
-    gl.glMultMatrixf(qmat);
+    gl.glMultMatrixf(qmat, 0);
 }
 
 public Vec3D PointToWorldSpace(Vec3D Point, Vec3D Heading, Vec3D Side, Vec3D Position)
@@ -156,7 +156,7 @@ public Vec3D PointToWorldSpace(Vec3D Point, Vec3D Heading, Vec3D Side, Vec3D Pos
   float[] mat = new float[16];
   float x, y, z;
   
-  gl.glGetFloatv(GL.GL_MODELVIEW_MATRIX, mat);
+  gl.glGetFloatv(GL.GL_MODELVIEW_MATRIX, mat, 0);
   x = mat[0*4+0]*Point.v[0] + mat[1*4+0]*Point.v[1] + mat[2*4+0]*Point.v[2] + mat[3*4+0];
   y = mat[0*4+1]*Point.v[0] + mat[1*4+1]*Point.v[1] + mat[2*4+1]*Point.v[2] + mat[3*4+1];
   z = mat[0*4+2]*Point.v[0] + mat[1*4+2]*Point.v[1] + mat[2*4+2]*Point.v[2] + mat[3*4+2];

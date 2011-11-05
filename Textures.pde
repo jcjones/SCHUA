@@ -28,12 +28,15 @@ void PrepareTexture(String filename, boolean wrap, int ID) {
   /* LOAD TEXTURES */  
   PImage tex = loadImage(filename);
 
+  IntBuffer buffer = IntBuffer.wrap(tex.pixels);
+  buffer.rewind();
+
   // Be efficient in jOGL
   gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
   // select our current texture
   gl.glBindTexture(GL.GL_TEXTURE_2D, ID);
   // copy texture to video card's texture memory -- our load uses BGRA_EXT.
-  gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 4, tex.width, tex.height, 0, GL.GL_BGRA_EXT, GL.GL_UNSIGNED_BYTE, tex.pixels);
+  gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, 4, tex.width, tex.height, 0, GL.GL_BGRA, GL.GL_UNSIGNED_BYTE, buffer);
   
   // Set wrapping
   gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
@@ -47,10 +50,10 @@ void PrepareTexture(String filename, boolean wrap, int ID) {
   // select modulate to mix texture with color for shading
   gl.glTexEnvf( GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE );
   
-  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, mat_shininess);
-  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, mat_specular);
-  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, mat_diffuse);
-  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, mat_ambient);  
+  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, mat_shininess, 0);
+  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, mat_specular, 0);
+  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, mat_diffuse, 0);
+  gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, mat_ambient, 0);  
 
   /* END LOAD TEXTURES */
 }
@@ -58,12 +61,12 @@ void PrepareTexture(String filename, boolean wrap, int ID) {
 /* This function is final to suggest that it be inlined */
 final void setMaterialDiffuseColor(float r, float g, float b, float a) {
     float[] mat_diffuse_color = {r,g,b,a};
-    gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, mat_diffuse_color);    
+    gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, mat_diffuse_color, 0);    
 }
 
 void LoadTextures() {
   /* Allocate memory for N textures below */
-  gl.glGenTextures(4, textureCollection);
+  gl.glGenTextures(4, textureCollection, 0);
 
   PrepareTexture("basic.jpg", false, textureCollection[0]); 
   PrepareTexture("dolphin.jpg", false, textureCollection[1]); 
@@ -96,8 +99,8 @@ void textureBasic(float textureScale) {
     gl.glTexGeni(GL.GL_S, GL.GL_TEXTURE_GEN_MODE, GL.GL_EYE_LINEAR);
     gl.glTexGeni(GL.GL_T, GL.GL_TEXTURE_GEN_MODE, GL.GL_EYE_LINEAR);
     // Setup the EYE_LINEAR options
-    gl.glTexGenfv(GL.GL_S, GL.GL_EYE_PLANE, s_plane);
-    gl.glTexGenfv(GL.GL_T, GL.GL_EYE_PLANE, t_plane);
+    gl.glTexGenfv(GL.GL_S, GL.GL_EYE_PLANE, s_plane, 0);
+    gl.glTexGenfv(GL.GL_T, GL.GL_EYE_PLANE, t_plane, 0);
   
     // Enable texture coordinates
     gl.glEnable(GL.GL_TEXTURE_GEN_S);
