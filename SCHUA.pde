@@ -23,9 +23,11 @@
  */
 
 import processing.opengl.*;
-import net.java.games.jogl.*;
+import javax.media.opengl.*;
+import javax.media.opengl.glu.*;
 import com.sun.image.codec.jpeg.*;
 import java.util.ArrayList;
+import java.nio.*;
 
 GL gl;
 GLU glu;
@@ -112,11 +114,11 @@ gl.glEnable(GL.GL_NORMALIZE);
 gl.glShadeModel(GL.GL_SMOOTH);
 
 /* Lighting */
-gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, light_ambient);
-gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, light_diffuse);
-gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, light_position);
-gl.glLightModelfv(GL.GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
-gl.glLightModelfv(GL.GL_LIGHT_MODEL_LOCAL_VIEWER, lmodel_localviewer);
+gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, light_ambient, 0);
+gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, light_diffuse, 0);
+gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, light_position, 0);
+gl.glLightModelfv(GL.GL_LIGHT_MODEL_AMBIENT, lmodel_ambient, 0);
+gl.glLightModelfv(GL.GL_LIGHT_MODEL_LOCAL_VIEWER, lmodel_localviewer, 0);
 gl.glEnable(GL.GL_LIGHTING);
 gl.glEnable(GL.GL_LIGHT0);
 }
@@ -124,13 +126,13 @@ gl.glEnable(GL.GL_LIGHT0);
 void setup()
 {
   size(800,800, OPENGL);
-  gl = ((PGraphicsGL) g).gl;
-  glu = ((PGraphicsGL) g).glu;
+  gl = ((PGraphicsOpenGL) g).gl;
+  glu = ((PGraphicsOpenGL) g).glu;
   glInit();
 
   frame.setTitle("SCHUA: The Schooling User-Interactive Aquarium (http://pugsplace.net/)!");   
       
-  framerate(fps);
+  frameRate(fps);
   
   fishes = new ArrayList();
   widgets = new ArrayList();
@@ -296,7 +298,7 @@ void PrintMatrix(String a)
 {
     println("======"+a+"======");
     float[] mat = new float[16];
-    gl.glGetFloatv(GL.GL_MODELVIEW_MATRIX, mat);
+    gl.glGetFloatv(GL.GL_MODELVIEW_MATRIX, mat, 0);
     for (int i=0;i<16;++i)
       if (i%4!=3)
         print(mat[i]+", ");
